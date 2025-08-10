@@ -81,3 +81,16 @@ func findKthNum(nums1, nums2 []int, k int) int {
 		return findKthNum(nums1, nums2[j:], k-j)
 	}
 }
+
+func maxArea(height []int) int {
+	ans := 0
+	for left, right := 0, len(height)-1; left < right; {
+		ans = max(ans, min(height[left], height[right])*(right-left))
+		if height[left] < height[right] {
+			left++
+		} else {
+			right--
+		}
+	}
+	return ans
+}
