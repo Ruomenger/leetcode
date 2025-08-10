@@ -47,3 +47,37 @@ func twoSum3(nums []int, target int) []int {
 	}
 	return ans
 }
+
+func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
+	totalLen := len(nums1) + len(nums2)
+	if totalLen%2 == 1 {
+		return float64(findKthNum(nums1, nums2, totalLen/2+1))
+	}
+	n1 := findKthNum(nums1, nums2, totalLen/2)
+	n2 := findKthNum(nums1, nums2, totalLen/2+1)
+	return float64(n1+n2) / 2
+}
+
+func findKthNum(nums1, nums2 []int, k int) int {
+	if len(nums1) > len(nums2) {
+		return findKthNum(nums2, nums1, k)
+	}
+
+	m := len(nums1)
+	if m == 0 {
+		return nums2[k-1]
+	}
+
+	if k == 1 {
+		return min(nums1[0], nums2[0])
+	}
+
+	i := min(k/2, m)
+	j := k - i
+
+	if nums1[i-1] < nums2[j-1] {
+		return findKthNum(nums1[i:], nums2, k-i)
+	} else {
+		return findKthNum(nums1, nums2[j:], k-j)
+	}
+}
