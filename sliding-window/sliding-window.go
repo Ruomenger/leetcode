@@ -40,3 +40,21 @@ func findMaxAverage(nums []int, k int) float64 {
 	}
 	return float64(maxSum) / float64(k)
 }
+
+func numOfSubarrays(arr []int, k int, threshold int) int {
+	ans := 0
+	maxValue := k * threshold
+	sum := 0
+	for left, right := 0, 0; right < len(arr); right++ {
+		sum += arr[right]
+		if right-left+1 < k {
+			continue
+		}
+		if sum >= maxValue {
+			ans++
+		}
+		sum -= arr[left]
+		left++
+	}
+	return ans
+}
