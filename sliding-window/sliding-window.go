@@ -58,3 +58,24 @@ func numOfSubarrays(arr []int, k int, threshold int) int {
 	}
 	return ans
 }
+
+func getAverages(nums []int, k int) []int {
+	if k == 0 {
+		return nums
+	}
+	ans := make([]int, len(nums))
+	for i := 0; i < len(nums); i++ {
+		ans[i] = -1
+	}
+	sum := 0
+	for left, right := 0, 0; right < len(nums); right++ {
+		sum += nums[right]
+		if right-left+1 < 2*k+1 {
+			continue
+		}
+		ans[right-k] = sum / (2*k + 1)
+		sum -= nums[left]
+		left++
+	}
+	return ans
+}
