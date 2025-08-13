@@ -103,3 +103,25 @@ func maxSum(nums []int, m int, k int) int64 {
 	}
 	return int64(ans)
 }
+
+func maxScore(cardPoints []int, k int) int {
+	n := len(cardPoints)
+	m := n - k
+	sum := 0
+	totalSum := 0
+	ans := math.MaxInt
+	for left, right := 0, 0; right < len(cardPoints); right++ {
+		totalSum += cardPoints[right]
+		sum += cardPoints[right]
+		if right-left+1 < m {
+			continue
+		}
+		ans = min(sum, ans)
+		sum -= cardPoints[left]
+		left++
+	}
+	if n == k {
+		ans = 0
+	}
+	return totalSum - ans
+}
