@@ -79,3 +79,27 @@ func getAverages(nums []int, k int) []int {
 	}
 	return ans
 }
+
+func maxSum(nums []int, m int, k int) int64 {
+	numsMap := make(map[int]int)
+	ans := 0
+	sum := 0
+	for left, right := 0, 0; right < len(nums); right++ {
+		numsMap[nums[right]]++
+		sum += nums[right]
+		if right-left+1 < k {
+			continue
+		}
+		cnt := len(numsMap)
+		if cnt >= m {
+			ans = max(ans, sum)
+		}
+		numsMap[nums[left]]--
+		if numsMap[nums[left]] == 0 {
+			delete(numsMap, nums[left])
+		}
+		sum -= nums[left]
+		left++
+	}
+	return int64(ans)
+}
