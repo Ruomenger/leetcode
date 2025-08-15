@@ -169,3 +169,28 @@ func maxFreeTime(eventTime int, k int, startTime []int, endTime []int) int {
 	}
 	return ans
 }
+
+func minSwaps(nums []int) int {
+	totalCnt := 0
+	for _, num := range nums {
+		if num == 1 {
+			totalCnt++
+		}
+	}
+	ans := totalCnt
+	sum := 0
+	for left, right := 0, 0; right < len(nums)+totalCnt; right++ {
+		if nums[right%len(nums)] == 0 {
+			sum++
+		}
+		if right-left+1 < totalCnt {
+			continue
+		}
+		ans = min(ans, sum)
+		if nums[left%len(nums)] == 0 {
+			sum--
+		}
+		left++
+	}
+	return ans
+}
