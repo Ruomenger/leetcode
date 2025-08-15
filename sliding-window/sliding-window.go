@@ -147,3 +147,25 @@ func maxSatisfied(customers []int, grumpy []int, minutes int) int {
 	}
 	return ans + sum0
 }
+
+func maxFreeTime(eventTime int, k int, startTime []int, endTime []int) int {
+	n := len(startTime)
+	freeTime := make([]int, n+1)
+	freeTime[0] = startTime[0]
+	for i := 1; i < n; i++ {
+		freeTime[i] = startTime[i] - endTime[i-1]
+	}
+	freeTime[n] = eventTime - endTime[n-1]
+	sum := 0
+	ans := 0
+	for left, right := 0, 0; right < len(freeTime); right++ {
+		sum += freeTime[right]
+		if right-left+1 < k+1 {
+			continue
+		}
+		ans = max(ans, sum)
+		sum -= freeTime[left]
+		left++
+	}
+	return ans
+}
