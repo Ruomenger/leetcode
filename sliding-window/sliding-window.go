@@ -125,3 +125,25 @@ func maxScore(cardPoints []int, k int) int {
 	}
 	return totalSum - ans
 }
+
+func maxSatisfied(customers []int, grumpy []int, minutes int) int {
+	ans := 0
+	sum := 0
+	sum0 := 0
+	for left, right := 0, 0; right < len(customers); right++ {
+		if grumpy[right] == 0 {
+			sum0 += customers[right]
+		} else {
+			sum += customers[right]
+		}
+		if right-left+1 < minutes {
+			continue
+		}
+		ans = max(ans, sum)
+		if grumpy[left] == 1 {
+			sum -= customers[left]
+		}
+		left++
+	}
+	return ans + sum0
+}
