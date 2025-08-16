@@ -235,3 +235,28 @@ func Test_decrypt(t *testing.T) {
 		})
 	}
 }
+
+func Test_maxFreq(t *testing.T) {
+	type args struct {
+		s          string
+		maxLetters int
+		minSize    int
+		maxSize    int
+	}
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"test1", args{"aababcaab", 2, 3, 4}, 2},
+		{"test2", args{"aaaa", 1, 3, 3}, 2},
+		{"test3", args{"aabcabcab", 2, 2, 3}, 3},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := maxFreq(tt.args.s, tt.args.maxLetters, tt.args.minSize, tt.args.maxSize); got != tt.want {
+				t.Errorf("maxFreq() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

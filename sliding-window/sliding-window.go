@@ -227,3 +227,26 @@ func decrypt(code []int, k int) []int {
 	}
 	return ans
 }
+
+func maxFreq(s string, maxLetters int, minSize int, maxSize int) int {
+	records := make(map[byte]int, 26)
+	ans := make(map[string]int)
+	for left, right := 0, 0; right < len(s); right++ {
+		records[s[right]]++
+		if right-left+1 == minSize {
+			if len(records) <= maxLetters {
+				ans[s[left:right+1]]++
+			}
+			records[s[left]]--
+			if records[s[left]] == 0 {
+				delete(records, s[left])
+			}
+			left++
+		}
+	}
+	maxNum := 0
+	for _, v := range ans {
+		maxNum = max(v, maxNum)
+	}
+	return maxNum
+}
