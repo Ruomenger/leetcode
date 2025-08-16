@@ -260,3 +260,25 @@ func Test_maxFreq(t *testing.T) {
 		})
 	}
 }
+
+func Test_minFlips(t *testing.T) {
+	type args struct {
+		s string
+	}
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"test1", args{"111000"}, 2},
+		{"test2", args{"010"}, 0},
+		{"test3", args{"00100110101"}, 2},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := minFlips(tt.args.s); got != tt.want {
+				t.Errorf("minFlips() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

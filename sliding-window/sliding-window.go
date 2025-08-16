@@ -250,3 +250,29 @@ func maxFreq(s string, maxLetters int, minSize int, maxSize int) int {
 	}
 	return maxNum
 }
+
+func minFlips(s string) int {
+	n := len(s)
+	min010 := n
+	sum010 := 0
+	for left, right := 0, 0; right < 2*n; right++ {
+		if right%2 == 0 && s[right%n] == '1' {
+			sum010++
+		}
+		if right%2 == 1 && s[right%n] == '0' {
+			sum010++
+		}
+		if right-left+1 < n {
+			continue
+		}
+		min010 = min(min010, sum010, n-sum010)
+		if left%2 == 0 && s[left%n] == '1' {
+			sum010--
+		}
+		if left%2 == 1 && s[left%n] == '0' {
+			sum010--
+		}
+		left++
+	}
+	return min(min010, n-min010)
+}
