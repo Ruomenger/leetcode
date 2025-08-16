@@ -276,3 +276,28 @@ func minFlips(s string) int {
 	}
 	return min(min010, n-min010)
 }
+
+func checkInclusion(s1 string, s2 string) bool {
+	n1 := len(s1)
+	n2 := len(s2)
+	if n1 > n2 {
+		return false
+	}
+	cnt1 := [26]int{}
+	for _, ch := range s1 {
+		cnt1[ch-'a']++
+	}
+	cnt2 := [26]int{}
+	for left, right := 0, 0; right < n2; right++ {
+		cnt2[s2[right]-'a']++
+		if right-left+1 < n1 {
+			continue
+		}
+		if cnt1 == cnt2 {
+			return true
+		}
+		cnt2[s2[left]-'a']--
+		left++
+	}
+	return false
+}
