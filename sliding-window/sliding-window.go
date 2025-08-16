@@ -194,3 +194,36 @@ func minSwaps(nums []int) int {
 	}
 	return ans
 }
+
+func decrypt(code []int, k int) []int {
+	codeLen := len(code)
+	ans := make([]int, codeLen)
+	if k == 0 {
+		return ans
+	}
+	if k > 0 {
+		sum := 0
+		for left, right := 0, 0; left < codeLen; right++ {
+			sum += code[right%codeLen]
+			if right-left < k {
+				continue
+			}
+			sum -= code[left]
+			ans[left] = sum
+			left++
+		}
+	} else {
+		k = -k
+		sum := 0
+		for left, right := codeLen-k, codeLen-k; right < codeLen+codeLen+1; right++ {
+			sum += code[right%codeLen]
+			if right-left+1 < k {
+				continue
+			}
+			ans[(right+1)%codeLen] = sum
+			sum -= code[left%codeLen]
+			left++
+		}
+	}
+	return ans
+}
