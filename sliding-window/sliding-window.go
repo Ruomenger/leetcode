@@ -301,3 +301,29 @@ func checkInclusion(s1 string, s2 string) bool {
 	}
 	return false
 }
+
+func findAnagrams(s string, p string) []int {
+	lenS := len(s)
+	lenP := len(p)
+	ans := []int{}
+	if lenS < lenP {
+		return ans
+	}
+	cntP := [26]int{}
+	for i := 0; i < lenP; i++ {
+		cntP[p[i]-'a']++
+	}
+	cntS := [26]int{}
+	for left, right := 0, 0; right < lenS; right++ {
+		cntS[s[right]-'a']++
+		if right-left+1 < lenP {
+			continue
+		}
+		if cntS == cntP {
+			ans = append(ans, left)
+		}
+		cntS[s[left]-'a']--
+		left++
+	}
+	return ans
+}
