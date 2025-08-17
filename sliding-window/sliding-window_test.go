@@ -305,6 +305,30 @@ func Test_checkInclusion(t *testing.T) {
 	}
 }
 
+func Test_subStrHash(t *testing.T) {
+	type args struct {
+		s         string
+		power     int
+		modulo    int
+		k         int
+		hashValue int
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{"test1", args{"leetcode", 7, 20, 2, 0}, "ee"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := subStrHash(tt.args.s, tt.args.power, tt.args.modulo, tt.args.k, tt.args.hashValue); got != tt.want {
+				t.Errorf("subStrHash() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
 func Test_findAnagrams(t *testing.T) {
 	type args struct {
 		s string

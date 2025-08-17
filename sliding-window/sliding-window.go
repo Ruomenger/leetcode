@@ -302,6 +302,29 @@ func checkInclusion(s1 string, s2 string) bool {
 	return false
 }
 
+func subStrHash(s string, power int, modulo int, k int, hashValue int) string {
+	p := 1
+	hash := 0
+	n := len(s)
+	for i := n - 1; i >= n-k; i-- {
+		hash = (hash*power + int(s[i]-'a'+1)) % modulo
+		if i != n-k {
+			p = p * power % modulo
+		}
+	}
+	ans := ""
+	if hash == hashValue {
+		ans = s[n-k:]
+	}
+	for i := n - k - 1; i >= 0; i-- {
+		hash = ((hash-int(s[i+k]-'a'+1)*p%modulo+modulo)*power + int(s[i]-'a'+1)) % modulo
+		if hash == hashValue {
+			ans = s[i : i+k]
+		}
+	}
+	return ans
+}
+
 func findAnagrams(s string, p string) []int {
 	lenS := len(s)
 	lenP := len(p)
