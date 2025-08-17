@@ -368,3 +368,37 @@ func findAnagrams(s string, p string) []int {
 	}
 	return ans
 }
+
+func findSubstring(s string, words []string) []int {
+	wordLen := len(words[0])
+	windowSize := wordLen * len(words)
+	wordCnt := make(map[string]int)
+	for _, word := range words {
+		wordCnt[word]++
+	}
+	ans := []int{}
+	for i := range wordLen {
+		sCnt := make(map[string]int)
+		overNum := 0
+		for left, right := i, i+wordLen; right <= len(s); right += wordLen {
+			word := s[right-wordLen : right]
+			if sCnt[word] == wordCnt[word] {
+				overNum++
+			}
+			sCnt[word]++
+			if right-left < windowSize {
+				continue
+			}
+			if overNum == 0 {
+				ans = append(ans, left)
+			}
+			word = s[left : left+wordLen]
+			sCnt[word]--
+			if sCnt[word] == wordCnt[word] {
+				overNum--
+			}
+			left += wordLen
+		}
+	}
+	return ans
+}
