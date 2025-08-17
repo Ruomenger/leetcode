@@ -325,6 +325,24 @@ func subStrHash(s string, power int, modulo int, k int, hashValue int) string {
 	return ans
 }
 
+func queryString(s string, n int) bool {
+	numCnt := make(map[int]struct{})
+	for i := 0; i < len(s); i++ {
+		x := int(s[i] - '0')
+		if x == 0 {
+			continue
+		}
+		for j := i + 1; x <= n; j++ {
+			numCnt[x] = struct{}{}
+			if j == len(s) {
+				break
+			}
+			x = x*2 + int(s[j]-'0')
+		}
+	}
+	return n == len(numCnt)
+}
+
 func findAnagrams(s string, p string) []int {
 	lenS := len(s)
 	lenP := len(p)

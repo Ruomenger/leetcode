@@ -329,6 +329,28 @@ func Test_subStrHash(t *testing.T) {
 	}
 }
 
+func Test_queryString(t *testing.T) {
+	type args struct {
+		s string
+		n int
+	}
+	tests := []struct {
+		name string
+		args args
+		want bool
+	}{
+		{"test1", args{"0110", 3}, true},
+		{"test2", args{"0110", 4}, false},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := queryString(tt.args.s, tt.args.n); got != tt.want {
+				t.Errorf("queryString() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
 func Test_findAnagrams(t *testing.T) {
 	type args struct {
 		s string
