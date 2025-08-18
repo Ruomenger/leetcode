@@ -402,3 +402,45 @@ func findSubstring(s string, words []string) []int {
 	}
 	return ans
 }
+
+func countCompleteSubstrings(word string, k int) int {
+	abs := func(num int) int {
+		if num < 0 {
+			return -num
+		}
+		return num
+	}
+	check := func(s string) int {
+		res := 0
+		for m := 1; m <= 26 && k*m <= len(s); m++ {
+			cnt := [26]int{}
+			for left, right := 0, 0; right < len(s); right++ {
+				cnt[s[right]-'a']++
+				if right-left+1 < k*m {
+					continue
+				}
+				flag := true
+				for i := range cnt {
+					if cnt[i] > 0 && cnt[i] != k {
+						flag = false
+						break
+					}
+				}
+				if flag {
+					res++
+				}
+				cnt[s[left]-'a']--
+				left++
+			}
+		}
+		return res
+	}
+	ans := 0
+	for i := 0; i < len(word); {
+		start := i
+		for i++; i < len(word) && abs(int(word[i])-int(word[i-1])) <= 2; i++ {
+		}
+		ans += check(word[start:i])
+	}
+	return ans
+}
