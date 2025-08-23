@@ -15,3 +15,18 @@ func lengthOfLongestSubstring(s string) int {
 	}
 	return ans
 }
+
+func maximumLengthSubstring(s string) int {
+	ans := 0
+	cnt := [26]int{}
+	for left, right := 0, 0; right < len(s); right++ {
+		ch := s[right] - 'a'
+		cnt[ch]++
+		for cnt[ch] > 2 {
+			cnt[s[left]-'a']--
+			left++
+		}
+		ans = max(ans, right-left+1)
+	}
+	return ans
+}
