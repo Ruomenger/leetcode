@@ -30,3 +30,24 @@ func maximumLengthSubstring(s string) int {
 	}
 	return ans
 }
+
+func longestSubarray(nums []int) int {
+	ans := 0
+	cnt := 0
+	for left, right := 0, 0; right < len(nums); right++ {
+		if nums[right] == 0 {
+			cnt++
+		}
+		for cnt > 1 {
+			if nums[left] == 0 {
+				cnt--
+			}
+			left++
+		}
+		if cnt <= 1 {
+			ans = max(ans, right-left)
+		}
+	}
+
+	return ans
+}
