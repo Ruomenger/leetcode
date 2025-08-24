@@ -65,3 +65,24 @@ func minRemoval(nums []int, k int) int {
 	}
 	return len(nums) - ans
 }
+
+func equalSubstring(s string, t string, maxCost int) int {
+	ans := 0
+	length := len(s)
+	cost := 0
+	abs := func(n int) int {
+		if n < 0 {
+			return -n
+		}
+		return n
+	}
+	for left, right := 0, 0; right < length; right++ {
+		cost += abs(int(s[right]) - int(t[right]))
+		for cost > maxCost {
+			cost -= abs(int(s[left]) - int(t[left]))
+			left++
+		}
+		ans = max(right-left+1, ans)
+	}
+	return ans
+}
