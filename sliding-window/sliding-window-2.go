@@ -1,5 +1,7 @@
 package sliding_window
 
+import "slices"
+
 // 不定长滑动窗口
 
 func lengthOfLongestSubstring(s string) int {
@@ -50,4 +52,16 @@ func longestSubarray(nums []int) int {
 	}
 
 	return ans
+}
+
+func minRemoval(nums []int, k int) int {
+	slices.Sort(nums)
+	ans := 1
+	for left, right := 0, 0; right < len(nums); right++ {
+		for nums[left]*k < nums[right] {
+			left++
+		}
+		ans = max(ans, right-left+1)
+	}
+	return len(nums) - ans
 }
