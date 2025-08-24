@@ -86,3 +86,23 @@ func equalSubstring(s string, t string, maxCost int) int {
 	}
 	return ans
 }
+
+func totalFruit(fruits []int) int {
+	fruitMap := make(map[int]int)
+	ans := 0
+	cnt := 0
+	for left, right := 0, 0; right < len(fruits); right++ {
+		fruitMap[fruits[right]]++
+		cnt++
+		for len(fruitMap) > 2 {
+			fruitMap[fruits[left]]--
+			cnt--
+			if fruitMap[fruits[left]] == 0 {
+				delete(fruitMap, fruits[left])
+			}
+			left++
+		}
+		ans = max(ans, cnt)
+	}
+	return ans
+}
