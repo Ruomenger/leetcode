@@ -106,3 +106,24 @@ func totalFruit(fruits []int) int {
 	}
 	return ans
 }
+
+func maximumUniqueSubarray(nums []int) int {
+	ans := 0
+	numMap := make(map[int]int, 0)
+	sum := 0
+	for left, right := 0, 0; right < len(nums); right++ {
+		num := nums[right]
+		sum += num
+		numMap[num]++
+		for numMap[num] > 1 {
+			numMap[nums[left]]--
+			sum -= nums[left]
+			left++
+			if numMap[nums[left]] == 0 {
+				delete(numMap, nums[left])
+			}
+		}
+		ans = max(ans, sum)
+	}
+	return ans
+}
