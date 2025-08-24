@@ -127,3 +127,17 @@ func maximumUniqueSubarray(nums []int) int {
 	}
 	return ans
 }
+
+func maxSubarrayLength(nums []int, k int) int {
+	ans := 0
+	numMap := make(map[int]int)
+	for left, right := 0, 0; right < len(nums); right++ {
+		numMap[nums[right]]++
+		for numMap[nums[right]] > k {
+			numMap[nums[left]]--
+			left++
+		}
+		ans = max(ans, right-left+1)
+	}
+	return ans
+}
