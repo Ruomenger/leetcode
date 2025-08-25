@@ -163,3 +163,21 @@ func maxAnswer(answerKey string, k int, ch byte) int {
 	}
 	return ans
 }
+
+func longestOnes(nums []int, k int) int {
+	ans := 0
+	cnt := 0
+	for left, right := 0, 0; right < len(nums); right++ {
+		if nums[right] == 0 {
+			cnt++
+		}
+		for cnt > k {
+			if nums[left] == 0 {
+				cnt--
+			}
+			left++
+		}
+		ans = max(ans, right-left+1)
+	}
+	return ans
+}
