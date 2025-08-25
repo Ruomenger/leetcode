@@ -181,3 +181,29 @@ func longestOnes(nums []int, k int) int {
 	}
 	return ans
 }
+
+func minOperations(nums []int, x int) int {
+	target := -x
+	for _, num := range nums {
+		target += num
+	}
+	if target < 0 {
+		return -1
+	}
+	ans := -1
+	sum := 0
+	for left, right := 0, 0; right < len(nums); right++ {
+		sum += nums[right]
+		for sum > target {
+			sum -= nums[left]
+			left++
+		}
+		if sum == target {
+			ans = max(ans, right-left+1)
+		}
+	}
+	if ans < 0 {
+		return -1
+	}
+	return len(nums) - ans
+}
