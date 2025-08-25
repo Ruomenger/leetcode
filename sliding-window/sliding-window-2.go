@@ -207,3 +207,23 @@ func minOperations(nums []int, x int) int {
 	}
 	return len(nums) - ans
 }
+
+func longestSemiRepetitiveSubstring(s string) int {
+	ans := 0
+	cnt := 0
+	for left, right := 0, 1; right < len(s); right++ {
+		if s[right] == s[right-1] {
+			cnt++
+		}
+		for cnt > 1 {
+			left++
+			if s[left] == s[left-1] {
+				cnt--
+			}
+		}
+		ans = max(ans, right-left+1)
+	}
+
+	return ans
+
+}
