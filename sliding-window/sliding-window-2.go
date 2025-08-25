@@ -141,3 +141,25 @@ func maxSubarrayLength(nums []int, k int) int {
 	}
 	return ans
 }
+
+func maxConsecutiveAnswers(answerKey string, k int) int {
+	return max(maxAnswer(answerKey, k, 'T'), maxAnswer(answerKey, k, 'F'))
+}
+
+func maxAnswer(answerKey string, k int, ch byte) int {
+	sum := 0
+	ans := 0
+	for left, right := 0, 0; right < len(answerKey); right++ {
+		if answerKey[right] != ch {
+			sum++
+		}
+		for sum > k {
+			if answerKey[left] != ch {
+				sum--
+			}
+			left++
+		}
+		ans = max(ans, right-left+1)
+	}
+	return ans
+}
