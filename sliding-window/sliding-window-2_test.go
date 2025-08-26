@@ -294,3 +294,25 @@ func Test_maximumBeauty(t *testing.T) {
 		})
 	}
 }
+
+func Test_maxFrequency(t *testing.T) {
+	type args struct {
+		nums []int
+		k    int
+	}
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"test1", args{[]int{1, 2, 4}, 5}, 3},
+		{"test2", args{[]int{1, 4, 8, 13}, 5}, 2},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := maxFrequency(tt.args.nums, tt.args.k); got != tt.want {
+				t.Errorf("maxFrequency() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

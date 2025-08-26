@@ -239,3 +239,20 @@ func maximumBeauty(nums []int, k int) int {
 	}
 	return ans
 }
+
+func maxFrequency(nums []int, k int) int {
+	ans := 1
+	slices.Sort(nums)
+
+	sum := 0
+	for left, right := 0, 1; right < len(nums); right++ {
+		sum += (nums[right] - nums[right-1]) * (right - left)
+		for sum > k {
+			sum -= (nums[right] - nums[left])
+			left++
+		}
+		ans = max(ans, right-left+1)
+	}
+
+	return ans
+}
