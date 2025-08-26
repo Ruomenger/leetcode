@@ -272,3 +272,25 @@ func Test_longestSemiRepetitiveSubstring(t *testing.T) {
 		})
 	}
 }
+
+func Test_maximumBeauty(t *testing.T) {
+	type args struct {
+		nums []int
+		k    int
+	}
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"test1", args{[]int{4, 6, 1, 2}, 2}, 3},
+		{"test2", args{[]int{1, 1, 1, 1}, 10}, 4},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := maximumBeauty(tt.args.nums, tt.args.k); got != tt.want {
+				t.Errorf("maximumBeauty() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

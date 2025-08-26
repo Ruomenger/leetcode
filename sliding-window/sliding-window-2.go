@@ -227,3 +227,15 @@ func longestSemiRepetitiveSubstring(s string) int {
 	return ans
 
 }
+
+func maximumBeauty(nums []int, k int) int {
+	slices.Sort(nums)
+	ans := 0
+	for left, right := 0, 0; right < len(nums); right++ {
+		for nums[right]-nums[left] > 2*k {
+			left++
+		}
+		ans = max(ans, right-left+1)
+	}
+	return ans
+}
