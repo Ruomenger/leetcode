@@ -278,3 +278,23 @@ func takeCharacters(s string, k int) int {
 
 	return len(s) - maxLen
 }
+
+func longestEqualSubarray(nums []int, k int) (ans int) {
+	posLists := make([][]int, len(nums)+1)
+	for i, x := range nums {
+		posLists[x] = append(posLists[x], i)
+	}
+
+	for _, pos := range posLists {
+		if len(pos) <= ans {
+			continue
+		}
+		for left, right := 0, 0; right < len(pos); right++ {
+			for pos[right]-pos[left]-right+left > k {
+				left++
+			}
+			ans = max(ans, right-left+1)
+		}
+	}
+	return ans
+}
