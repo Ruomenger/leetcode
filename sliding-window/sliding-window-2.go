@@ -256,3 +256,25 @@ func maxFrequency(nums []int, k int) int {
 
 	return ans
 }
+
+func takeCharacters(s string, k int) int {
+	nums := [3]int{}
+	for i := 0; i < len(s); i++ {
+		nums[s[i]%3]++
+	}
+	if nums[0] < k || nums[1] < k || nums[2] < k {
+		return -1
+	}
+	cnts := [3]int{}
+	maxLen := 0
+	for left, right := 0, 0; right < len(s); right++ {
+		cnts[s[right]%3]++
+		for cnts[0] > nums[0]-k || cnts[1] > nums[1]-k || cnts[2] > nums[2]-k {
+			cnts[s[left]%3]--
+			left++
+		}
+		maxLen = max(maxLen, right-left+1)
+	}
+
+	return len(s) - maxLen
+}
