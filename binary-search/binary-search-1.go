@@ -51,3 +51,9 @@ func nextGreatestLetter(letters []byte, target byte) byte {
 	idx := lowerBoundByte(letters, target+1)
 	return letters[idx%len(letters)]
 }
+
+func maximumCount(nums []int) int {
+	num1 := lowerBound(nums, 0)
+	num2 := len(nums) - lowerBound(nums, 1)
+	return max(num1, num2)
+}
