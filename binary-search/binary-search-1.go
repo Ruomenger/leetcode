@@ -25,3 +25,11 @@ func searchRange(nums []int, target int) []int {
 func searchInsert(nums []int, target int) int {
 	return lowerBound(nums, target)
 }
+
+func search(nums []int, target int) int {
+	idx := lowerBound(nums, target)
+	if idx == len(nums) || nums[idx] != target {
+		return -1
+	}
+	return idx
+}
