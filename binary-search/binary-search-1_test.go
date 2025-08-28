@@ -71,3 +71,26 @@ func Test_search(t *testing.T) {
 		})
 	}
 }
+
+func Test_nextGreatestLetter(t *testing.T) {
+	type args struct {
+		letters []byte
+		target  byte
+	}
+	tests := []struct {
+		name string
+		args args
+		want byte
+	}{
+		{"test1", args{[]byte{'c', 'f', 'j'}, 'a'}, 'c'},
+		{"test2", args{[]byte{'c', 'f', 'j'}, 'c'}, 'f'},
+		{"test3", args{[]byte{'x', 'x', 'y', 'y'}, 'z'}, 'x'},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := nextGreatestLetter(tt.args.letters, tt.args.target); got != tt.want {
+				t.Errorf("nextGreatestLetter() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

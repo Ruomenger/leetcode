@@ -33,3 +33,21 @@ func search(nums []int, target int) int {
 	}
 	return idx
 }
+
+func lowerBoundByte(letters []byte, target byte) int {
+	left, right := 0, len(letters)-1
+	for left <= right {
+		mid := left + (right-left)>>1
+		if letters[mid] >= target {
+			right = mid - 1
+		} else {
+			left = mid + 1
+		}
+	}
+	return left
+}
+
+func nextGreatestLetter(letters []byte, target byte) byte {
+	idx := lowerBoundByte(letters, target+1)
+	return letters[idx%len(letters)]
+}
