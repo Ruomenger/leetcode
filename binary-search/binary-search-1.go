@@ -21,3 +21,7 @@ func searchRange(nums []int, target int) []int {
 	end := lowerBound(nums, target+1) - 1
 	return []int{start, end}
 }
+
+func searchInsert(nums []int, target int) int {
+	return lowerBound(nums, target)
+}
