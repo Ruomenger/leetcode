@@ -360,3 +360,25 @@ func Test_longestEqualSubarray(t *testing.T) {
 		})
 	}
 }
+
+func Test_maximumWhiteTiles(t *testing.T) {
+	type args struct {
+		tiles     [][]int
+		carpetLen int
+	}
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"test1", args{[][]int{{1, 5}, {10, 11}, {12, 18}, {20, 25}, {30, 32}}, 10}, 9},
+		{"test2", args{[][]int{{10, 11}, {1, 1}}, 2}, 2},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := maximumWhiteTiles(tt.args.tiles, tt.args.carpetLen); got != tt.want {
+				t.Errorf("maximumWhiteTiles() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

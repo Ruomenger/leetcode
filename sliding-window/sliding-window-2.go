@@ -1,6 +1,8 @@
 package sliding_window
 
-import "slices"
+import (
+	"slices"
+)
 
 // 不定长滑动窗口
 
@@ -295,6 +297,26 @@ func longestEqualSubarray(nums []int, k int) (ans int) {
 			}
 			ans = max(ans, right-left+1)
 		}
+	}
+	return ans
+}
+
+func maximumWhiteTiles(tiles [][]int, carpetLen int) int {
+	ans := 0
+	slices.SortFunc(tiles, func(a, b []int) int {
+		return a[0] - b[0]
+	})
+	cover := 0
+	for left, right := 0, 0; right < len(tiles); right++ {
+		tl, tr := tiles[right][0], tiles[right][1]
+		cover += tr - tl + 1
+		carpetLeft := tr - carpetLen + 1
+		for tiles[left][1] < carpetLeft {
+			cover -= tiles[left][1] - tiles[left][0] + 1
+			left++
+		}
+		uncover := max(0, carpetLeft-tiles[left][0])
+		ans = max(ans, cover-uncover)
 	}
 	return ans
 }
