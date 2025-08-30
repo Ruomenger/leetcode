@@ -144,3 +144,31 @@ func maxDepth(root *TreeNode) int {
 	}
 	return ans
 }
+
+func minDepth(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	queue := list.New()
+	queue.PushBack(root)
+	ans := 0
+	for queue.Len() != 0 {
+		ans++
+		length := queue.Len()
+		for i := 0; i < length; i++ {
+			ele := queue.Front()
+			queue.Remove(ele)
+			node := ele.Value.(*TreeNode)
+			if node.Left == nil && node.Right == nil {
+				return ans
+			}
+			if node.Left != nil {
+				queue.PushBack(node.Left)
+			}
+			if node.Right != nil {
+				queue.PushBack(node.Right)
+			}
+		}
+	}
+	return ans
+}

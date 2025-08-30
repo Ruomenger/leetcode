@@ -140,3 +140,29 @@ func Test_maxDepth(t *testing.T) {
 		})
 	}
 }
+
+func Test_minDepth(t *testing.T) {
+	type args struct {
+		root *TreeNode
+	}
+	root1 := &TreeNode{Val: 3}
+	root1.Left = &TreeNode{Val: 5}
+	root1.Left.Left = &TreeNode{Val: 6}
+	root1.Left.Right = &TreeNode{Val: 2}
+	root1.Left.Right.Left = &TreeNode{Val: 7}
+	root1.Left.Right.Right = &TreeNode{Val: 4}
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"test1", args{root1}, 3},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := minDepth(tt.args.root); got != tt.want {
+				t.Errorf("minDepth() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
