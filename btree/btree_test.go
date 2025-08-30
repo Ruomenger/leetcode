@@ -73,3 +73,44 @@ func Test_postorderTraversal(t *testing.T) {
 		})
 	}
 }
+
+func Test_leafSimilar(t *testing.T) {
+	type args struct {
+		root1 *TreeNode
+		root2 *TreeNode
+	}
+	root1 := &TreeNode{Val: 3}
+	root1.Left = &TreeNode{Val: 5}
+	root1.Left.Left = &TreeNode{Val: 6}
+	root1.Left.Right = &TreeNode{Val: 2}
+	root1.Left.Right.Left = &TreeNode{Val: 7}
+	root1.Left.Right.Right = &TreeNode{Val: 4}
+	root1.Right = &TreeNode{Val: 1}
+	root1.Right.Left = &TreeNode{Val: 9}
+	root1.Right.Right = &TreeNode{Val: 8}
+
+	root2 := &TreeNode{Val: 3}
+	root2.Left = &TreeNode{Val: 5}
+	root2.Left.Left = &TreeNode{Val: 6}
+	root2.Left.Right = &TreeNode{Val: 7}
+	root2.Right = &TreeNode{Val: 1}
+	root2.Right.Left = &TreeNode{Val: 4}
+	root2.Right.Right = &TreeNode{Val: 2}
+	root2.Right.Right.Left = &TreeNode{Val: 9}
+	root2.Right.Right.Right = &TreeNode{Val: 8}
+
+	tests := []struct {
+		name string
+		args args
+		want bool
+	}{
+		{"test1", args{root1, root2}, true},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := leafSimilar(tt.args.root1, tt.args.root2); got != tt.want {
+				t.Errorf("leafSimilar() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
