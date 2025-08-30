@@ -166,3 +166,29 @@ func Test_minDepth(t *testing.T) {
 		})
 	}
 }
+
+func Test_hasPathSum(t *testing.T) {
+	type args struct {
+		root      *TreeNode
+		targetSum int
+	}
+	root1 := &TreeNode{Val: 5}
+	root1.Left = &TreeNode{Val: 4}
+	root1.Left.Left = &TreeNode{Val: 11}
+	root1.Left.Left.Left = &TreeNode{Val: 7}
+	root1.Left.Left.Right = &TreeNode{Val: 2}
+	tests := []struct {
+		name string
+		args args
+		want bool
+	}{
+		{"test1", args{root1, 22}, true},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := hasPathSum(tt.args.root, tt.args.targetSum); got != tt.want {
+				t.Errorf("hasPathSum() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
