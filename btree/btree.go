@@ -206,3 +206,28 @@ func sumNumbers(root *TreeNode) int {
 	dfs(root, 0)
 	return ans
 }
+
+func rightSideView(root *TreeNode) []int {
+	ans := []int{}
+	if root == nil {
+		return ans
+	}
+	queue := list.New()
+	queue.PushBack(root)
+	for queue.Len() != 0 {
+		length := queue.Len()
+		for i := 0; i < length; i++ {
+			node := queue.Remove(queue.Front()).(*TreeNode)
+			if i == length-1 {
+				ans = append(ans, node.Val)
+			}
+			if node.Left != nil {
+				queue.PushBack(node.Left)
+			}
+			if node.Right != nil {
+				queue.PushBack(node.Right)
+			}
+		}
+	}
+	return ans
+}
