@@ -27,3 +27,26 @@ func Test_preorderTraversal(t *testing.T) {
 		})
 	}
 }
+
+func Test_inorderTraversal(t *testing.T) {
+	type args struct {
+		root *TreeNode
+	}
+	root1 := &TreeNode{Val: 1}
+	root1.Right = &TreeNode{Val: 2}
+	root1.Right.Left = &TreeNode{Val: 3}
+	tests := []struct {
+		name string
+		args args
+		want []int
+	}{
+		{"test1", args{root1}, []int{1, 3, 2}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := inorderTraversal(tt.args.root); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("inorderTraversal() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

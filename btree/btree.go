@@ -29,3 +29,24 @@ func preorderTraversal(root *TreeNode) []int {
 	}
 	return ans
 }
+
+func inorderTraversal(root *TreeNode) []int {
+	ans := []int{}
+	if root == nil {
+		return ans
+	}
+	stack := list.New()
+	node := root
+	for node != nil || stack.Len() != 0 {
+		for node != nil {
+			stack.PushBack(node)
+			node = node.Left
+		}
+		ele := stack.Back()
+		stack.Remove(ele)
+		node = ele.Value.(*TreeNode)
+		ans = append(ans, node.Val)
+		node = node.Right
+	}
+	return ans
+}
