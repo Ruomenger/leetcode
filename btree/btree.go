@@ -182,3 +182,27 @@ func hasPathSum(root *TreeNode, targetSum int) bool {
 	}
 	return hasPathSum(root.Left, targetSum-root.Val) || hasPathSum(root.Right, targetSum-root.Val)
 }
+
+func sumNumbers(root *TreeNode) int {
+	ans := 0
+	var dfs func(node *TreeNode, num int)
+	dfs = func(node *TreeNode, num int) {
+		if node == nil {
+			ans += num
+			return
+		}
+		num = num*10 + node.Val
+		if node.Left == nil && node.Right == nil {
+			ans += num
+			return
+		}
+		if node.Left != nil {
+			dfs(node.Left, num)
+		}
+		if node.Right != nil {
+			dfs(node.Right, num)
+		}
+	}
+	dfs(root, 0)
+	return ans
+}

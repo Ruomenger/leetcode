@@ -192,3 +192,26 @@ func Test_hasPathSum(t *testing.T) {
 		})
 	}
 }
+
+func Test_sumNumbers(t *testing.T) {
+	type args struct {
+		root *TreeNode
+	}
+	root1 := &TreeNode{Val: 1}
+	root1.Left = &TreeNode{Val: 2}
+	root1.Right = &TreeNode{Val: 3}
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"test1", args{root1}, 25},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := sumNumbers(tt.args.root); got != tt.want {
+				t.Errorf("sumNumbers() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
