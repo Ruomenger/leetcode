@@ -1,6 +1,9 @@
 package monotonicstack
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
 func Test_dailyTemperatures(t *testing.T) {
 	tests := []struct {
@@ -84,6 +87,36 @@ func Test_finalPrices(t *testing.T) {
 				if got[i] != tt.want[i] {
 					t.Errorf("finalPrices() 索引 %d 不匹配: 得到 %d, 期望 %d", i, got[i], tt.want[i])
 				}
+			}
+		})
+	}
+}
+
+func TestNextGreaterElement(t *testing.T) {
+	tests := []struct {
+		name  string
+		nums1 []int
+		nums2 []int
+		want  []int
+	}{
+		{
+			name:  "example 1",
+			nums1: []int{4, 1, 2},
+			nums2: []int{1, 3, 4, 2},
+			want:  []int{-1, 3, -1},
+		},
+		{
+			name:  "example 2",
+			nums1: []int{2, 4},
+			nums2: []int{1, 2, 3, 4},
+			want:  []int{3, -1},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := nextGreaterElement(tt.nums1, tt.nums2); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("nextGreaterElement() = %v, want %v", got, tt.want)
 			}
 		})
 	}
