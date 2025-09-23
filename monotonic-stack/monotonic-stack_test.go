@@ -49,3 +49,42 @@ func Test_dailyTemperatures(t *testing.T) {
 		})
 	}
 }
+
+func Test_finalPrices(t *testing.T) {
+	tests := []struct {
+		name   string
+		prices []int
+		want   []int
+	}{
+		{
+			name:   "示例1: 存在多个折扣情况",
+			prices: []int{8, 4, 6, 2, 3},
+			want:   []int{4, 2, 4, 2, 3},
+		},
+		{
+			name:   "示例2: 无折扣情况",
+			prices: []int{1, 2, 3, 4, 5},
+			want:   []int{1, 2, 3, 4, 5},
+		},
+		{
+			name:   "示例3: 包含相同价格折扣",
+			prices: []int{10, 1, 1, 6},
+			want:   []int{9, 0, 1, 6},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := finalPrices(tt.prices)
+			// 比较两个切片是否完全相等
+			if len(got) != len(tt.want) {
+				t.Errorf("finalPrices() 长度不匹配: 得到 %d, 期望 %d", len(got), len(tt.want))
+				return
+			}
+			for i := range got {
+				if got[i] != tt.want[i] {
+					t.Errorf("finalPrices() 索引 %d 不匹配: 得到 %d, 期望 %d", i, got[i], tt.want[i])
+				}
+			}
+		})
+	}
+}
