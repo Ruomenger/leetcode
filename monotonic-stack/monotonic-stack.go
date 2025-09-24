@@ -48,3 +48,23 @@ func nextGreaterElement(nums1 []int, nums2 []int) []int {
 	}
 	return ans
 }
+
+func nextGreaterElements(nums []int) []int {
+	n := len(nums)
+	ans := make([]int, n)
+	for i := range ans {
+		ans[i] = -1
+	}
+	st := []int{}
+	for i := 0; i < 2*n; i++ {
+		num := nums[i%n]
+		for len(st) > 0 && num > nums[st[len(st)-1]] {
+			ans[st[len(st)-1]] = num
+			st = st[:len(st)-1]
+		}
+		if i < n {
+			st = append(st, i)
+		}
+	}
+	return ans
+}
