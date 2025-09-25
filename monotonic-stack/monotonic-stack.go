@@ -1,5 +1,7 @@
 package monotonicstack
 
+import "slices"
+
 func dailyTemperatures(temperatures []int) []int {
 	st := []int{}
 	ans := make([]int, len(temperatures))
@@ -67,4 +69,27 @@ func nextGreaterElements(nums []int) []int {
 		}
 	}
 	return ans
+}
+
+func carFleet(target int, position []int, speed []int) int {
+	type pair struct {
+		pos  int
+		hour float64
+	}
+	cars := make([]pair, len(position))
+	for i, pos := range position {
+		cars = append(cars, pair{
+			pos:  pos,
+			hour: float64(target-pos) / float64(speed[i]),
+		})
+	}
+	slices.SortFunc(cars, func(a, b pair) int { return a.pos - b.pos })
+	st := []pair{}
+	for _, car := range cars {
+		for len(st) > 0 && car.hour >= st[len(st)-1].hour {
+			st = st[:len(st)-1]
+		}
+		st = append(st, car)
+	}
+	return len(st)
 }
