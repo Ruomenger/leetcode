@@ -188,3 +188,30 @@ func TestCarFleet(t *testing.T) {
 		})
 	}
 }
+
+func TestLargestRectangleArea(t *testing.T) {
+	tests := []struct {
+		name    string
+		heights []int
+		want    int
+	}{
+		{
+			name:    "示例1",
+			heights: []int{2, 1, 5, 6, 2, 3},
+			want:    10,
+		},
+		{
+			name:    "示例2",
+			heights: []int{2, 4},
+			want:    4,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := largestRectangleArea(tt.heights); got != tt.want {
+				t.Errorf("largestRectangleArea() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

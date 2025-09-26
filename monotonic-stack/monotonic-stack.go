@@ -93,3 +93,32 @@ func carFleet(target int, position []int, speed []int) int {
 	}
 	return len(st)
 }
+
+func largestRectangleArea(heights []int) int {
+	ans := 0
+	left := make([]int, len(heights))
+	st := []int{-1}
+	for i, h := range heights {
+		for len(st) > 1 && heights[st[len(st)-1]] >= h {
+			st = st[:len(st)-1]
+		}
+		left[i] = st[len(st)-1]
+		st = append(st, i)
+	}
+
+	right := make([]int, len(heights))
+	st = st[:1]
+	st[0] = len(heights)
+	for i, h := range slices.Backward(heights) {
+		for len(st) > 1 && heights[st[len(st)-1]] >= h {
+			st = st[:len(st)-1]
+		}
+		right[i] = st[len(st)-1]
+		st = append(st, i)
+	}
+	for i, h := range heights {
+		ans = max(ans, h*(right[i]-left[i]-1))
+	}
+
+	return ans
+}
