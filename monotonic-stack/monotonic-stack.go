@@ -122,3 +122,35 @@ func largestRectangleArea(heights []int) int {
 
 	return ans
 }
+
+func maximumScore(nums []int, k int) int {
+	ans := 0
+	left := make([]int, len(nums))
+	st := []int{-1}
+	for i, h := range nums {
+		for len(st) > 1 && nums[st[len(st)-1]] >= h {
+			st = st[:len(st)-1]
+		}
+		left[i] = st[len(st)-1]
+		st = append(st, i)
+	}
+
+	right := make([]int, len(nums))
+	st = st[:1]
+	st[0] = len(nums)
+	for i, h := range slices.Backward(nums) {
+		for len(st) > 1 && nums[st[len(st)-1]] >= h {
+			st = st[:len(st)-1]
+		}
+		right[i] = st[len(st)-1]
+		st = append(st, i)
+	}
+	for i, h := range nums {
+		l, r := left[i], right[i]
+		if l < k && k < r {
+			ans = max(ans, h*(right[i]-left[i]-1))
+		}
+	}
+
+	return ans
+}

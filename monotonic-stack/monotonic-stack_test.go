@@ -215,3 +215,33 @@ func TestLargestRectangleArea(t *testing.T) {
 		})
 	}
 }
+
+func TestMaximumScore(t *testing.T) {
+	tests := []struct {
+		name string
+		nums []int
+		k    int
+		want int
+	}{
+		{
+			name: "示例1",
+			nums: []int{1, 4, 3, 7, 4, 5},
+			k:    3,
+			want: 15,
+		},
+		{
+			name: "示例2",
+			nums: []int{5, 5, 4, 5, 4, 1, 1, 1},
+			k:    0,
+			want: 20,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := maximumScore(tt.nums, tt.k); got != tt.want {
+				t.Errorf("maximumScore() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
