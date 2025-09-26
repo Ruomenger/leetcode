@@ -245,3 +245,44 @@ func TestMaximumScore(t *testing.T) {
 		})
 	}
 }
+
+func TestMaximalRectangle(t *testing.T) {
+	tests := []struct {
+		name   string
+		matrix [][]byte
+		want   int
+	}{
+		{
+			name: "示例1",
+			matrix: [][]byte{
+				[]byte("10100"),
+				[]byte("10111"),
+				[]byte("11111"),
+				[]byte("10010"),
+			},
+			want: 6,
+		},
+		{
+			name: "示例2",
+			matrix: [][]byte{
+				[]byte("0"),
+			},
+			want: 0,
+		},
+		{
+			name: "示例3",
+			matrix: [][]byte{
+				[]byte("1"),
+			},
+			want: 1,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := maximalRectangle(tt.matrix); got != tt.want {
+				t.Errorf("maximalRectangle() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

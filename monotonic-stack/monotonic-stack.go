@@ -154,3 +154,19 @@ func maximumScore(nums []int, k int) int {
 
 	return ans
 }
+
+func maximalRectangle(matrix [][]byte) (ans int) {
+	heights := make([]int, len(matrix[0]))
+	for _, row := range matrix {
+		// 计算底边为 row 的柱子高度
+		for j, c := range row {
+			if c == '0' {
+				heights[j] = 0 // 柱子高度为 0
+			} else {
+				heights[j]++ // 柱子高度加一
+			}
+		}
+		ans = max(ans, largestRectangleArea(heights)) // 调用 84 题代码
+	}
+	return
+}
