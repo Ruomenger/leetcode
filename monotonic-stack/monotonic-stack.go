@@ -1,6 +1,8 @@
 package monotonicstack
 
-import "slices"
+import (
+	"slices"
+)
 
 func dailyTemperatures(temperatures []int) []int {
 	st := []int{}
@@ -186,6 +188,44 @@ func trap(height []int) int {
 	}
 	for i := range n {
 		ans += min(leftMax[i], rightMax[i]) - height[i]
+	}
+	return ans
+}
+
+func trap2(height []int) int {
+	ans := 0
+	n := len(height)
+	leftMax, rightMax := 0, 0
+	left, right := 0, n-1
+	for left <= right {
+		leftMax = max(leftMax, height[left])
+		rightMax = max(rightMax, height[right])
+		if leftMax < rightMax {
+			ans += leftMax - height[left]
+			left++
+		} else {
+			ans += rightMax - height[right]
+			right--
+		}
+	}
+	return ans
+}
+
+func trap3(height []int) int {
+	ans := 0
+	st := []int{}
+	for i, h := range height {
+		for len(st) > 0 && height[st[len(st)-1]] <= h {
+			bottomH := height[st[len(st)-1]]
+			st = st[:len(st)-1]
+			if len(st) == 0 {
+				break
+			}
+			left := st[len(st)-1]
+			dh := min(height[left], h) - bottomH
+			ans += dh * (i - left - 1)
+		}
+		st = append(st, i)
 	}
 	return ans
 }

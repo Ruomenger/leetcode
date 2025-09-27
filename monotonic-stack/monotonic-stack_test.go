@@ -310,6 +310,12 @@ func TestTrap(t *testing.T) {
 			if got := trap(tt.height); got != tt.want {
 				t.Errorf("trap() = %v, want %v", got, tt.want)
 			}
+			if got := trap2(tt.height); got != tt.want {
+				t.Errorf("trap2() = %v, want %v", got, tt.want)
+			}
+			if got := trap3(tt.height); got != tt.want {
+				t.Errorf("trap3() = %v, want %v", got, tt.want)
+			}
 		})
 	}
 }
