@@ -319,3 +319,30 @@ func TestTrap(t *testing.T) {
 		})
 	}
 }
+
+func TestSumSubarrayMins(t *testing.T) {
+	tests := []struct {
+		name string
+		arr  []int
+		want int
+	}{
+		{
+			name: "示例1",
+			arr:  []int{3, 1, 2, 4},
+			want: 17,
+		},
+		{
+			name: "示例2",
+			arr:  []int{11, 81, 94, 43, 3},
+			want: 444,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := sumSubarrayMins(tt.arr); got != tt.want {
+				t.Errorf("sumSubarrayMins() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

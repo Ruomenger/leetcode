@@ -229,3 +229,29 @@ func trap3(height []int) int {
 	}
 	return ans
 }
+
+func sumSubarrayMins(arr []int) int {
+	st := []int{-1}
+	left := make([]int, len(arr))
+	for i, num := range arr {
+		for len(st) > 1 && arr[st[len(st)-1]] >= num {
+			st = st[:len(st)-1]
+		}
+		left[i] = st[len(st)-1]
+		st = append(st, i)
+	}
+	st = []int{len(arr)}
+	right := make([]int, len(arr))
+	for i := len(arr) - 1; i >= 0; i-- {
+		for len(st) > 1 && arr[st[len(st)-1]] > arr[i] {
+			st = st[:len(st)-1]
+		}
+		right[i] = st[len(st)-1]
+		st = append(st, i)
+	}
+	ans := 0
+	for i, num := range arr {
+		ans += num * (i - left[i]) * (right[i] - i)
+	}
+	return ans % (1e9 + 7)
+}
