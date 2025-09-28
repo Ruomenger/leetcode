@@ -38,3 +38,38 @@ func Test_maximalSquare(t *testing.T) {
 		})
 	}
 }
+
+func TestCountSquares(t *testing.T) {
+	tests := []struct {
+		name   string
+		matrix [][]int
+		want   int
+	}{
+		{
+			name: "示例1",
+			matrix: [][]int{
+				{0, 1, 1, 1},
+				{1, 1, 1, 1},
+				{0, 1, 1, 1},
+			},
+			want: 15,
+		},
+		{
+			name: "示例2",
+			matrix: [][]int{
+				{1, 0, 1},
+				{1, 1, 0},
+				{1, 1, 0},
+			},
+			want: 7,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := countSquares(tt.matrix); got != tt.want {
+				t.Errorf("countSquares() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
