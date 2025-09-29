@@ -255,3 +255,34 @@ func sumSubarrayMins(arr []int) int {
 	}
 	return ans % (1e9 + 7)
 }
+
+func maxSums(nums []int) int64 {
+	ans := int64(0)
+	n := len(nums)
+	left := make([]int, n)
+	right := make([]int, n)
+	for i := range right {
+		right[i] = n
+	}
+	st := []int{-1}
+	for i, num := range nums {
+		for len(st) > 1 && nums[st[len(st)-1]] <= num {
+			right[st[len(st)-1]] = i
+			st = st[:len(st)-1]
+		}
+		left[i] = st[len(st)-1]
+		st = append(st, i)
+	}
+	for i, num := range nums {
+		ans += int64(i-left[i]) * int64(right[i]-i) * int64(num)
+	}
+	return ans
+}
+
+func subArrayRanges(nums []int) int64 {
+	ans := maxSums(nums)
+	for i := range nums {
+		nums[i] *= -1
+	}
+	return ans + maxSums(nums)
+}
