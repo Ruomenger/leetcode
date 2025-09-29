@@ -286,3 +286,31 @@ func subArrayRanges(nums []int) int64 {
 	}
 	return ans + maxSums(nums)
 }
+
+func maxSumMinProduct(nums []int) int {
+	ans := 0
+	n := len(nums)
+	left := make([]int, n)
+	right := make([]int, n)
+	for i := range right {
+		right[i] = n
+	}
+	st := []int{-1}
+	for i, num := range nums {
+		for len(st) > 1 && num <= nums[st[len(st)-1]] {
+			right[st[len(st)-1]] = i
+			st = st[:len(st)-1]
+		}
+		left[i] = st[len(st)-1]
+		st = append(st, i)
+	}
+	prefixSum := make([]int, n+1)
+	for i := 1; i <= n; i++ {
+		prefixSum[i] = prefixSum[i-1] + nums[i-1]
+	}
+	for i, num := range nums {
+		ans = max(ans, num*(prefixSum[right[i]]-prefixSum[left[i]+1]))
+	}
+
+	return ans % (1e9 + 7)
+}
