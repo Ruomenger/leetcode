@@ -410,3 +410,34 @@ func TestMaxSumMinProduct(t *testing.T) {
 		})
 	}
 }
+
+func TestMostCompetitive(t *testing.T) {
+	tests := []struct {
+		name string
+		nums []int
+		k    int
+		want []int
+	}{
+		{
+			name: "示例1: [3,5,2,6], k=2",
+			nums: []int{3, 5, 2, 6},
+			k:    2,
+			want: []int{2, 6},
+		},
+		{
+			name: "示例2: [2,4,3,3,5,4,9,6], k=4",
+			nums: []int{2, 4, 3, 3, 5, 4, 9, 6},
+			k:    4,
+			want: []int{2, 3, 3, 4},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := mostCompetitive(tt.nums, tt.k)
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("mostCompetitive() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

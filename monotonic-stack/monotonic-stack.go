@@ -314,3 +314,16 @@ func maxSumMinProduct(nums []int) int {
 
 	return ans % (1e9 + 7)
 }
+
+func mostCompetitive(nums []int, k int) []int {
+	st := []int{}
+	for i, num := range nums {
+		for len(st) > 0 && num < st[len(st)-1] && len(st)+len(nums)-i > k {
+			st = st[:len(st)-1]
+		}
+		if len(st) < k {
+			st = append(st, num)
+		}
+	}
+	return st
+}
