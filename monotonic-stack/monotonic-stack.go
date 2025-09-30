@@ -2,6 +2,7 @@ package monotonicstack
 
 import (
 	"slices"
+	"strings"
 )
 
 func dailyTemperatures(temperatures []int) []int {
@@ -412,4 +413,44 @@ func compare(a []int, i int, b []int, j int) int {
 
 	// 如果一个数组比较完了，比较剩余长度
 	return (m - i) - (n - j)
+}
+
+func smallestSubsequence(s string, k int, letter byte, repetition int) string {
+	n := len(s)
+	remaining := strings.Count(s, string(letter))
+
+	stack := make([]byte, 0, k)
+	inStack := 0
+
+	for i := 0; i < n; i++ {
+		c := s[i]
+		if c == letter {
+			remaining--
+		}
+
+		for len(stack) > 0 && stack[len(stack)-1] > c && (len(stack)+(n-i-1)) >= k {
+			top := stack[len(stack)-1]
+			if top == letter && (inStack-1+remaining) < repetition {
+				break
+			}
+			if top == letter {
+				inStack--
+			}
+			stack = stack[:len(stack)-1]
+		}
+
+		if len(stack) < k {
+			if c == letter {
+				stack = append(stack, c)
+				inStack++
+			} else {
+				needLetter := repetition - inStack
+				if (k - len(stack)) > needLetter {
+					stack = append(stack, c)
+				}
+			}
+		}
+	}
+
+	return string(stack)
 }

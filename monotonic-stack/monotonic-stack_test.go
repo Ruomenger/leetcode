@@ -482,3 +482,48 @@ func TestMaxNumber(t *testing.T) {
 		})
 	}
 }
+
+func TestSmallestSubsequence(t *testing.T) {
+	tests := []struct {
+		name       string
+		s          string
+		k          int
+		letter     byte
+		repetition int
+		want       string
+	}{
+		{
+			name:       "示例1: s=leet, k=3, letter=e, repetition=1",
+			s:          "leet",
+			k:          3,
+			letter:     'e',
+			repetition: 1,
+			want:       "eet",
+		},
+		{
+			name:       "示例2: s=leetcode, k=4, letter=e, repetition=2",
+			s:          "leetcode",
+			k:          4,
+			letter:     'e',
+			repetition: 2,
+			want:       "ecde",
+		},
+		{
+			name:       "示例3: s=bb, k=2, letter=b, repetition=2",
+			s:          "bb",
+			k:          2,
+			letter:     'b',
+			repetition: 2,
+			want:       "bb",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := smallestSubsequence(tt.s, tt.k, tt.letter, tt.repetition)
+			if got != tt.want {
+				t.Errorf("smallestSubsequence() = %q, want %q", got, tt.want)
+			}
+		})
+	}
+}
