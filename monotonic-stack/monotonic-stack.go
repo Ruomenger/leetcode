@@ -327,3 +327,89 @@ func mostCompetitive(nums []int, k int) []int {
 	}
 	return st
 }
+
+func maxNumber(nums1 []int, nums2 []int, k int) []int {
+	m, n := len(nums1), len(nums2)
+	result := make([]int, k)
+
+	// 遍历所有可能的分配方案
+	// 从nums1中取i个，从nums2中取k-i个
+	start := max(0, k-n) // 至少要从nums1中取的个数
+	end := min(k, m)     // 最多能从nums1中取的个数
+
+	for i := start; i <= end; i++ {
+		// 从两个数组中分别提取最大子序列
+		sub1 := maxSubsequence(nums1, i)
+		sub2 := maxSubsequence(nums2, k-i)
+
+		// 合并两个子序列
+		merged := merge(sub1, sub2)
+
+		// 更新结果
+		if compare(merged, 0, result, 0) > 0 {
+			result = merged
+		}
+	}
+
+	return result
+}
+
+// 从数组中提取长度为k的最大子序列（保持相对顺序）
+func maxSubsequence(nums []int, k int) []int {
+	if k == 0 {
+		return []int{}
+	}
+
+	// 使用栈来维护当前最大的子序列
+	stack := make([]int, 0)
+	n := len(nums)
+
+	for i := 0; i < n; i++ {
+		// 当栈不为空，且当前数字大于栈顶数字，且剩余数字足够填满k个时
+		for len(stack) > 0 && nums[i] > stack[len(stack)-1] && len(stack)+n-i > k {
+			stack = stack[:len(stack)-1] // 弹出栈顶
+		}
+
+		if len(stack) < k {
+			stack = append(stack, nums[i])
+		}
+	}
+
+	return stack
+}
+
+// 合并两个数组，形成最大的数字
+func merge(a, b []int) []int {
+	m, n := len(a), len(b)
+	result := make([]int, m+n)
+	i, j := 0, 0
+
+	for idx := 0; idx < m+n; idx++ {
+		if compare(a, i, b, j) > 0 {
+			result[idx] = a[i]
+			i++
+		} else {
+			result[idx] = b[j]
+			j++
+		}
+	}
+
+	return result
+}
+
+// 比较两个数组从指定位置开始的大小
+func compare(a []int, i int, b []int, j int) int {
+	m, n := len(a), len(b)
+
+	for i < m && j < n {
+		diff := a[i] - b[j]
+		if diff != 0 {
+			return diff
+		}
+		i++
+		j++
+	}
+
+	// 如果一个数组比较完了，比较剩余长度
+	return (m - i) - (n - j)
+}
