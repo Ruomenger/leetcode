@@ -202,3 +202,34 @@ func findMaxFish(grid [][]int) int {
 	}
 	return ans
 }
+
+func colorBorder(grid [][]int, row int, col int, color int) [][]int {
+	n, m := len(grid), len(grid[0])
+	visited := make([][]bool, n)
+	for i := range n {
+		visited[i] = make([]bool, m)
+	}
+	origin := grid[row][col]
+	dirs := [][]int{{-1, 0}, {1, 0}, {0, -1}, {0, 1}}
+	var dfs func(x, y int)
+	dfs = func(x, y int) {
+		if x < 0 || x >= n || y < 0 || y >= m || grid[x][y] != origin || visited[x][y] {
+			return
+		}
+		visited[x][y] = true
+		for _, dir := range dirs {
+			nx, ny := x+dir[0], y+dir[1]
+			if nx >= 0 && nx < n && ny >= 0 && ny < m {
+				if grid[nx][ny] != origin && !visited[nx][ny] {
+					grid[x][y] = color
+				} else if grid[nx][ny] == origin && !visited[nx][ny] {
+					dfs(nx, ny)
+				}
+			} else {
+				grid[x][y] = color
+			}
+		}
+	}
+	dfs(row, col)
+	return grid
+}

@@ -248,3 +248,88 @@ func TestFindMaxFish(t *testing.T) {
 		})
 	}
 }
+
+// 辅助函数：判断两个二维数组是否相等
+func equal(a, b [][]int) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for i := range a {
+		if len(a[i]) != len(b[i]) {
+			return false
+		}
+		for j := range a[i] {
+			if a[i][j] != b[i][j] {
+				return false
+			}
+		}
+	}
+	return true
+}
+
+func TestColorBorder(t *testing.T) {
+	// 定义测试用例表格
+	tests := []struct {
+		name     string
+		grid     [][]int
+		row      int
+		col      int
+		color    int
+		expected [][]int
+	}{
+		{
+			name: "示例1",
+			grid: [][]int{
+				{1, 1},
+				{1, 2},
+			},
+			row:   0,
+			col:   0,
+			color: 3,
+			expected: [][]int{
+				{3, 3},
+				{3, 2},
+			},
+		},
+		{
+			name: "示例2",
+			grid: [][]int{
+				{1, 2, 2},
+				{2, 3, 2},
+			},
+			row:   0,
+			col:   1,
+			color: 3,
+			expected: [][]int{
+				{1, 3, 3},
+				{2, 3, 3},
+			},
+		},
+		{
+			name: "示例3",
+			grid: [][]int{
+				{1, 1, 1},
+				{1, 1, 1},
+				{1, 1, 1},
+			},
+			row:   1,
+			col:   1,
+			color: 2,
+			expected: [][]int{
+				{2, 2, 2},
+				{2, 1, 2},
+				{2, 2, 2},
+			},
+		},
+	}
+
+	// 遍历测试用例表格执行测试
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result := colorBorder(tt.grid, tt.row, tt.col, tt.color)
+			if !equal(result, tt.expected) {
+				t.Errorf("测试用例 %s 失败:\n预期: %v\n实际: %v", tt.name, tt.expected, result)
+			}
+		})
+	}
+}
