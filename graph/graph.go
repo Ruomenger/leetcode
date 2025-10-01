@@ -176,3 +176,29 @@ func islandPerimeter(grid [][]int) int {
 	}
 	return ans
 }
+
+func findMaxFish(grid [][]int) int {
+	ans := 0
+	n, m := len(grid), len(grid[0])
+	var dfs func(x, y int) int
+	dfs = func(x, y int) int {
+		if x < 0 || x >= n || y < 0 || y >= m || grid[x][y] == 0 {
+			return 0
+		}
+		cnt := grid[x][y]
+		grid[x][y] = 0
+		cnt += dfs(x+1, y)
+		cnt += dfs(x-1, y)
+		cnt += dfs(x, y+1)
+		cnt += dfs(x, y-1)
+		return cnt
+	}
+	for x := range n {
+		for y := range m {
+			if grid[x][y] != 0 {
+				ans = max(ans, dfs(x, y))
+			}
+		}
+	}
+	return ans
+}
