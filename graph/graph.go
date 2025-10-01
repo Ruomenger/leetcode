@@ -50,3 +50,29 @@ func maxAreaOfIsland(grid [][]int) int {
 	}
 	return ans
 }
+
+func countIslands(grid [][]int, k int) int {
+	n, m := len(grid), len(grid[0])
+	ans := 0
+	var dfs func(int, int) int
+	dfs = func(i, j int) int {
+		if i < 0 || i >= n || j < 0 || j >= m || grid[i][j] == 0 {
+			return 0
+		}
+		cnt := grid[i][j]
+		grid[i][j] = 0
+		cnt += dfs(i, j-1)
+		cnt += dfs(i, j+1)
+		cnt += dfs(i-1, j)
+		cnt += dfs(i+1, j)
+		return cnt
+	}
+	for i := range n {
+		for j := range m {
+			if grid[i][j] != 0 && dfs(i, j)%k == 0 {
+				ans++
+			}
+		}
+	}
+	return ans
+}
