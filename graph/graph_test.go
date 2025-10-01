@@ -125,3 +125,42 @@ func TestCountIslands(t *testing.T) {
 		})
 	}
 }
+
+func TestLargestArea(t *testing.T) {
+	// 定义测试用例表格
+	tests := []struct {
+		name     string
+		grid     []string
+		expected int
+	}{
+		{
+			name: "示例1",
+			grid: []string{
+				"110",
+				"231",
+				"221",
+			},
+			expected: 1,
+		},
+		{
+			name: "示例2",
+			grid: []string{
+				"11111100000",
+				"21243101111",
+				"21224101221",
+				"11111101111",
+			},
+			expected: 3,
+		},
+	}
+
+	// 遍历测试用例表格执行测试
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result := largestArea(tt.grid)
+			if result != tt.expected {
+				t.Errorf("测试用例 %s 失败: 预期 %d, 实际 %d", tt.name, tt.expected, result)
+			}
+		})
+	}
+}
