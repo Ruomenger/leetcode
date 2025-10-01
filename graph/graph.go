@@ -138,3 +138,41 @@ func largestArea(grid []string) int {
 
 	return maxArea
 }
+
+func islandPerimeter(grid [][]int) int {
+	ans := 0
+	n := len(grid)
+	m := len(grid[0])
+	for x := range n {
+		for y := range m {
+			if grid[x][y] != 1 {
+				continue
+			}
+			if x == 0 {
+				ans++
+			}
+			if x == n-1 {
+				ans++
+			}
+			if y == 0 {
+				ans++
+			}
+			if y == m-1 {
+				ans++
+			}
+			if x-1 >= 0 && grid[x-1][y] == 0 {
+				ans++
+			}
+			if x+1 < n && grid[x+1][y] == 0 {
+				ans++
+			}
+			if y-1 >= 0 && grid[x][y-1] == 0 {
+				ans++
+			}
+			if y+1 < m && grid[x][y+1] == 0 {
+				ans++
+			}
+		}
+	}
+	return ans
+}
