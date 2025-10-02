@@ -287,3 +287,39 @@ func maxMoves(grid [][]int) int {
 	}
 	return ans
 }
+
+func closedIsland(grid [][]int) int {
+	ans := 0
+	n, m := len(grid), len(grid[0])
+	visited := make([][]bool, n)
+	for i := range n {
+		visited[i] = make([]bool, m)
+	}
+	var dfs func(x, y int) bool
+	dfs = func(x, y int) bool {
+		if x < 0 || x >= n || y < 0 || y >= m {
+			return false
+		}
+		if grid[x][y] == 1 {
+			return true
+		}
+		if visited[x][y] {
+			return true
+		}
+		visited[x][y] = true
+		d1 := dfs(x-1, y)
+		d2 := dfs(x+1, y)
+		d3 := dfs(x, y-1)
+		d4 := dfs(x, y+1)
+		return d1 && d2 && d3 && d4
+	}
+	for i := range n {
+		for j := range m {
+			if grid[i][j] == 0 && !visited[i][j] && dfs(i, j) {
+				ans++
+			}
+		}
+	}
+
+	return ans
+}

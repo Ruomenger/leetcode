@@ -424,3 +424,54 @@ func TestMaxMoves(t *testing.T) {
 		})
 	}
 }
+
+func TestClosedIsland(t *testing.T) {
+	testCases := []struct {
+		name  string
+		input [][]int
+		want  int
+	}{
+		{
+			name: "示例1",
+			input: [][]int{
+				{1, 1, 1, 1, 1, 1, 1, 0},
+				{1, 0, 0, 0, 0, 1, 1, 0},
+				{1, 0, 1, 0, 1, 1, 1, 0},
+				{1, 0, 0, 0, 0, 1, 0, 1},
+				{1, 1, 1, 1, 1, 1, 1, 0},
+			},
+			want: 2,
+		},
+		{
+			name: "示例2",
+			input: [][]int{
+				{0, 0, 1, 0, 0},
+				{0, 1, 0, 1, 0},
+				{0, 1, 1, 1, 0},
+			},
+			want: 1,
+		},
+		{
+			name: "示例3",
+			input: [][]int{
+				{1, 1, 1, 1, 1, 1, 1},
+				{1, 0, 0, 0, 0, 0, 1},
+				{1, 0, 1, 1, 1, 0, 1},
+				{1, 0, 1, 0, 1, 0, 1},
+				{1, 0, 1, 1, 1, 0, 1},
+				{1, 0, 0, 0, 0, 0, 1},
+				{1, 1, 1, 1, 1, 1, 1},
+			},
+			want: 2,
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			got := closedIsland(tc.input)
+			if got != tc.want {
+				t.Errorf("closedIsland() = %v, want %v", got, tc.want)
+			}
+		})
+	}
+}
