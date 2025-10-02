@@ -265,3 +265,25 @@ func numEnclaves(grid [][]int) int {
 	}
 	return ans
 }
+
+func maxMoves(grid [][]int) int {
+	n, m := len(grid), len(grid[0])
+	ans := 0
+	var dfs func(int, int)
+	dfs = func(x, y int) {
+		ans = max(ans, y)
+		if ans == m-1 {
+			return
+		}
+		for i := max(x-1, 0); i < min(x+2, n); i++ {
+			if grid[i][y+1] > grid[x][y] {
+				dfs(i, y+1)
+			}
+		}
+		grid[x][y] = 0
+	}
+	for i := range n {
+		dfs(i, 0)
+	}
+	return ans
+}

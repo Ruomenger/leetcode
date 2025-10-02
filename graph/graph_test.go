@@ -387,3 +387,40 @@ func TestNumEnclaves(t *testing.T) {
 		})
 	}
 }
+
+func TestMaxMoves(t *testing.T) {
+	testCases := []struct {
+		name  string
+		input [][]int
+		want  int
+	}{
+		{
+			name: "示例1",
+			input: [][]int{
+				{2, 4, 3, 5},
+				{5, 4, 9, 3},
+				{3, 4, 2, 11},
+				{10, 9, 13, 15},
+			},
+			want: 3,
+		},
+		{
+			name: "示例2",
+			input: [][]int{
+				{3, 2, 4},
+				{2, 1, 9},
+				{1, 1, 7},
+			},
+			want: 0,
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			got := maxMoves(tc.input)
+			if got != tc.want {
+				t.Errorf("maxMoves() = %v, want %v", got, tc.want)
+			}
+		})
+	}
+}
