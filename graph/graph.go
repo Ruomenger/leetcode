@@ -233,3 +233,35 @@ func colorBorder(grid [][]int, row int, col int, color int) [][]int {
 	dfs(row, col)
 	return grid
 }
+
+func numEnclaves(grid [][]int) int {
+	n, m := len(grid), len(grid[0])
+	var dfs func(x, y int)
+	dfs = func(x, y int) {
+		if x < 0 || x >= n || y < 0 || y >= m || grid[x][y] == 0 {
+			return
+		}
+		grid[x][y] = 0
+		dfs(x-1, y)
+		dfs(x+1, y)
+		dfs(x, y-1)
+		dfs(x, y+1)
+	}
+	for x := range n {
+		dfs(x, 0)
+		dfs(x, m-1)
+	}
+	for y := range m {
+		dfs(0, y)
+		dfs(n-1, y)
+	}
+	ans := 0
+	for i := range n {
+		for j := range m {
+			if grid[i][j] == 1 {
+				ans++
+			}
+		}
+	}
+	return ans
+}

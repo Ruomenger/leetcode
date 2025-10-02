@@ -333,3 +333,57 @@ func TestColorBorder(t *testing.T) {
 		})
 	}
 }
+
+func TestNumEnclaves(t *testing.T) {
+	testCases := []struct {
+		name  string
+		input [][]int
+		want  int
+	}{
+		{
+			name: "示例1",
+			input: [][]int{
+				{0, 0, 0, 0},
+				{1, 0, 1, 0},
+				{0, 1, 1, 0},
+				{0, 0, 0, 0},
+			},
+			want: 3,
+		},
+		{
+			name: "示例2",
+			input: [][]int{
+				{0, 1, 1, 0},
+				{0, 0, 1, 0},
+				{0, 0, 1, 0},
+				{0, 0, 0, 0},
+			},
+			want: 0,
+		},
+		{
+			name: "示例3",
+			input: [][]int{
+				{0, 0, 0, 1, 1, 1, 0, 1, 0, 0},
+				{1, 1, 0, 0, 0, 1, 0, 1, 1, 1},
+				{0, 0, 0, 1, 1, 1, 0, 1, 0, 0},
+				{0, 1, 1, 0, 0, 0, 1, 0, 1, 0},
+				{0, 1, 1, 1, 1, 1, 0, 0, 1, 0},
+				{0, 0, 1, 0, 1, 1, 1, 1, 0, 1},
+				{0, 1, 1, 0, 0, 0, 1, 1, 1, 1},
+				{0, 0, 1, 0, 0, 1, 0, 1, 0, 1},
+				{1, 0, 1, 0, 1, 1, 0, 0, 0, 0},
+				{0, 0, 0, 0, 1, 1, 0, 0, 0, 1},
+			},
+			want: 3,
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			got := numEnclaves(tc.input)
+			if got != tc.want {
+				t.Errorf("numEnclaves() = %v, want %v", got, tc.want)
+			}
+		})
+	}
+}
