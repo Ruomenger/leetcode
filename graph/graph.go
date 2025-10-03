@@ -463,3 +463,48 @@ func hasValidPath(grid [][]int) bool {
 
 	return dfs(0, 0)
 }
+
+func pacificAtlantic(heights [][]int) [][]int {
+	n, m := len(heights), len(heights[0])
+	ans := make([][]int, 0)
+	pacific := make([][]bool, n)
+	atlantic := make([][]bool, n)
+	for i := range n {
+		pacific[i] = make([]bool, m)
+		atlantic[i] = make([]bool, m)
+	}
+	var dfs func(x, y int, ocean [][]bool)
+	dfs = func(x, y int, ocean [][]bool) {
+		if ocean[x][y] {
+			return
+		}
+		ocean[x][y] = true
+		dirs := [][]int{{-1, 0}, {1, 0}, {0, -1}, {0, 1}}
+		for _, dir := range dirs {
+			nx, ny := x+dir[0], y+dir[1]
+			if nx >= 0 && nx < n && ny >= 0 && ny < m && heights[nx][ny] >= heights[x][y] {
+				dfs(nx, ny, ocean)
+			}
+		}
+	}
+	for i := range n {
+		dfs(i, 0, pacific)
+	}
+	for j := range m {
+		dfs(0, j, pacific)
+	}
+	for i := range n {
+		dfs(i, m-1, atlantic)
+	}
+	for j := range m {
+		dfs(n-1, j, atlantic)
+	}
+	for i := range n {
+		for j := range m {
+			if pacific[i][j] && atlantic[i][j] {
+				ans = append(ans, []int{i, j})
+			}
+		}
+	}
+	return ans
+}

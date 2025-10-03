@@ -672,3 +672,69 @@ func Test_hasValidPath(t *testing.T) {
 		})
 	}
 }
+
+func Test_pacificAtlantic(t *testing.T) {
+	tests := []struct {
+		name    string
+		heights [][]int
+		want    [][]int
+	}{
+		{
+			name: "示例 1",
+			heights: [][]int{
+				{1, 2, 2, 3, 5},
+				{3, 2, 3, 4, 4},
+				{2, 4, 5, 3, 1},
+				{6, 7, 1, 4, 5},
+				{5, 1, 1, 2, 4},
+			},
+			want: [][]int{
+				{0, 4},
+				{1, 3},
+				{1, 4},
+				{2, 2},
+				{3, 0},
+				{3, 1},
+				{4, 0},
+			},
+		},
+		{
+			name: "示例 2",
+			heights: [][]int{
+				{2, 1},
+				{1, 2},
+			},
+			want: [][]int{
+				{0, 0},
+				{0, 1},
+				{1, 0},
+				{1, 1},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := pacificAtlantic(tt.heights); !slicesEqual(got, tt.want) {
+				t.Errorf("pacificAtlantic() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+// slicesEqual 比较两个二维切片是否相等
+func slicesEqual(a, b [][]int) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for i := range a {
+		if len(a[i]) != len(b[i]) {
+			return false
+		}
+		for j := range a[i] {
+			if a[i][j] != b[i][j] {
+				return false
+			}
+		}
+	}
+	return true
+}
