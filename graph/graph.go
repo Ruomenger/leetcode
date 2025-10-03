@@ -508,3 +508,53 @@ func pacificAtlantic(heights [][]int) [][]int {
 	}
 	return ans
 }
+
+func updateBoard(board [][]byte, click []int) [][]byte {
+	n, m := len(board), len(board[0])
+	visited := make([][]bool, n)
+	for i := range n {
+		visited[i] = make([]bool, m)
+	}
+	var dfs func(x, y int)
+	dfs = func(x, y int) {
+		if x < 0 || x >= n || y < 0 || y >= m || visited[x][y] {
+			return
+		}
+		visited[x][y] = true
+		if board[x][y] == 'M' {
+			board[x][y] = 'X'
+			return
+		}
+		if board[x][y] == 'B' {
+			return
+		}
+		if board[x][y] >= '1' && board[x][y] <= '8' {
+			return
+		}
+		cnt := byte(0)
+		for i := max(0, x-1); i < min(x+2, n); i++ {
+			for j := max(0, y-1); j < min(y+2, m); j++ {
+				if board[i][j] == 'M' {
+					cnt++
+				}
+			}
+		}
+		if cnt == 0 {
+			board[x][y] = 'B'
+		} else {
+			board[x][y] = '0' + cnt
+		}
+		if board[x][y] == 'B' {
+			for i := -1; i <= 1; i++ {
+				for j := -1; j <= 1; j++ {
+					if i == 0 && j == 0 {
+						continue
+					}
+					dfs(x+i, y+j)
+				}
+			}
+		}
+	}
+	dfs(click[0], click[1])
+	return board
+}

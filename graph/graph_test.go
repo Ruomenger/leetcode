@@ -738,3 +738,87 @@ func slicesEqual(a, b [][]int) bool {
 	}
 	return true
 }
+
+func Test_updateBoard(t *testing.T) {
+	tests := []struct {
+		name  string
+		board [][]byte
+		click []int
+		want  [][]byte
+	}{
+		{
+			name: "示例 1",
+			board: [][]byte{
+				{'E', 'E', 'E', 'E', 'E'},
+				{'E', 'E', 'M', 'E', 'E'},
+				{'E', 'E', 'E', 'E', 'E'},
+				{'E', 'E', 'E', 'E', 'E'},
+			},
+			click: []int{3, 0},
+			want: [][]byte{
+				{'B', '1', 'E', '1', 'B'},
+				{'B', '1', 'M', '1', 'B'},
+				{'B', '1', '1', '1', 'B'},
+				{'B', 'B', 'B', 'B', 'B'},
+			},
+		},
+		{
+			name: "示例 2",
+			board: [][]byte{
+				{'B', '1', 'E', '1', 'B'},
+				{'B', '1', 'M', '1', 'B'},
+				{'B', '1', '1', '1', 'B'},
+				{'B', 'B', 'B', 'B', 'B'},
+			},
+			click: []int{1, 2},
+			want: [][]byte{
+				{'B', '1', 'E', '1', 'B'},
+				{'B', '1', 'X', '1', 'B'},
+				{'B', '1', '1', '1', 'B'},
+				{'B', 'B', 'B', 'B', 'B'},
+			},
+		},
+		{
+			name: "示例 3",
+			board: [][]byte{
+				{'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E'},
+				{'E', 'E', 'E', 'E', 'E', 'E', 'E', 'M'},
+				{'E', 'E', 'M', 'E', 'E', 'E', 'E', 'E'},
+				{'M', 'E', 'E', 'E', 'E', 'E', 'E', 'E'},
+				{'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E'},
+				{'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E'},
+				{'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E'},
+				{'E', 'E', 'M', 'M', 'E', 'E', 'E', 'E'},
+			},
+			click: []int{0, 0},
+			want: [][]byte{
+				{'B', 'B', 'B', 'B', 'B', 'B', '1', 'E'},
+				{'B', '1', '1', '1', 'B', 'B', '1', 'M'},
+				{'1', '2', 'M', '1', 'B', 'B', '1', '1'},
+				{'M', '2', '1', '1', 'B', 'B', 'B', 'B'},
+				{'1', '1', 'B', 'B', 'B', 'B', 'B', 'B'},
+				{'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B'},
+				{'B', '1', '2', '2', '1', 'B', 'B', 'B'},
+				{'B', '1', 'M', 'M', '1', 'B', 'B', 'B'},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := updateBoard(tt.board, tt.click)
+			if len(got) != len(tt.want) {
+				t.Fatalf("got %d rows, want %d", len(got), len(tt.want))
+			}
+			for i := range got {
+				if len(got[i]) != len(tt.want[i]) {
+					t.Fatalf("row %d: got %d columns, want %d", i, len(got[i]), len(tt.want[i]))
+				}
+				for j := range got[i] {
+					if got[i][j] != tt.want[i][j] {
+						t.Fatalf("got[%d][%d] = %c, want %c", i, j, got[i][j], tt.want[i][j])
+					}
+				}
+			}
+		})
+	}
+}
