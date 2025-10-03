@@ -560,3 +560,56 @@ func TestSolve(t *testing.T) {
 		})
 	}
 }
+
+func Test_countSubIslands(t *testing.T) {
+	tests := []struct {
+		name  string
+		grid1 [][]int
+		grid2 [][]int
+		want  int
+	}{
+		{
+			name: "示例 1",
+			grid1: [][]int{
+				{1, 1, 1, 0, 0},
+				{0, 1, 1, 1, 1},
+				{0, 0, 0, 0, 0},
+				{1, 0, 0, 0, 0},
+				{1, 1, 0, 1, 1},
+			},
+			grid2: [][]int{
+				{1, 1, 1, 0, 0},
+				{0, 0, 1, 1, 1},
+				{0, 1, 0, 0, 0},
+				{1, 0, 1, 1, 0},
+				{0, 1, 0, 1, 0},
+			},
+			want: 3,
+		},
+		{
+			name: "示例 2",
+			grid1: [][]int{
+				{1, 0, 1, 0, 1},
+				{1, 1, 1, 1, 1},
+				{0, 0, 0, 0, 0},
+				{1, 1, 1, 1, 1},
+				{1, 0, 1, 0, 1},
+			},
+			grid2: [][]int{
+				{0, 0, 0, 0, 0},
+				{1, 1, 1, 1, 1},
+				{0, 1, 0, 1, 0},
+				{0, 1, 0, 1, 0},
+				{1, 0, 0, 0, 1},
+			},
+			want: 2,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := countSubIslands(tt.grid1, tt.grid2); got != tt.want {
+				t.Errorf("countSubIslands() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

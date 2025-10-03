@@ -364,3 +364,40 @@ func solve(board [][]byte) {
 		}
 	}
 }
+
+func countSubIslands(grid1 [][]int, grid2 [][]int) int {
+	n, m := len(grid1), len(grid1[0])
+	visited := make([][]bool, n)
+	for i := range n {
+		visited[i] = make([]bool, m)
+	}
+	var dfs func(x, y int) bool
+	dfs = func(x, y int) bool {
+		if x < 0 || x >= n || y < 0 || y >= m || visited[x][y] {
+			return true
+		}
+		visited[x][y] = true
+		if grid2[x][y] == 0 {
+			return true
+		}
+
+		d1 := dfs(x-1, y)
+		d2 := dfs(x+1, y)
+		d3 := dfs(x, y-1)
+		d4 := dfs(x, y+1)
+		if grid1[x][y] != grid2[x][y] {
+			return false
+		}
+
+		return d1 && d2 && d3 && d4
+	}
+	ans := 0
+	for x := range n {
+		for y := range m {
+			if !visited[x][y] && grid2[x][y] == 1 && dfs(x, y) {
+				ans++
+			}
+		}
+	}
+	return ans
+}
