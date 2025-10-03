@@ -613,3 +613,62 @@ func Test_countSubIslands(t *testing.T) {
 		})
 	}
 }
+
+func Test_hasValidPath(t *testing.T) {
+	tests := []struct {
+		name string
+		grid [][]int
+		want bool
+	}{
+		{
+			name: "示例 1",
+			grid: [][]int{
+				{2, 4, 3},
+				{6, 5, 2},
+			},
+			want: true,
+		},
+		{
+			name: "示例 2",
+			grid: [][]int{
+				{1, 2, 1},
+				{1, 2, 1},
+			},
+			want: false,
+		},
+		{
+			name: "示例 3",
+			grid: [][]int{
+				{1, 1, 2},
+			},
+			want: false,
+		},
+		{
+			name: "示例 4",
+			grid: [][]int{
+				{1, 1, 1, 1, 1, 1, 3},
+			},
+			want: true,
+		},
+		{
+			name: "示例 5",
+			grid: [][]int{
+				{2},
+				{2},
+				{2},
+				{2},
+				{2},
+				{2},
+				{6},
+			},
+			want: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := hasValidPath(tt.grid); got != tt.want {
+				t.Errorf("hasValidPath() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
