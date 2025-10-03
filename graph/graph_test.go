@@ -475,3 +475,88 @@ func TestClosedIsland(t *testing.T) {
 		})
 	}
 }
+
+func TestSolve(t *testing.T) {
+	tests := []struct {
+		name  string
+		input [][]byte
+		want  [][]byte
+	}{
+		{
+			name: "示例1",
+			input: [][]byte{
+				{'X', 'X', 'X', 'X'},
+				{'X', 'O', 'O', 'X'},
+				{'X', 'X', 'O', 'X'},
+				{'X', 'O', 'X', 'X'},
+			},
+			want: [][]byte{
+				{'X', 'X', 'X', 'X'},
+				{'X', 'X', 'X', 'X'},
+				{'X', 'X', 'X', 'X'},
+				{'X', 'O', 'X', 'X'},
+			},
+		},
+		{
+			name: "示例2",
+			input: [][]byte{
+				{'X'},
+			},
+			want: [][]byte{
+				{'X'},
+			},
+		},
+		{
+			name: "示例3",
+			input: [][]byte{
+				{'O', 'O', 'O', 'O', 'X', 'X'},
+				{'O', 'O', 'O', 'O', 'O', 'O'},
+				{'O', 'X', 'O', 'X', 'O', 'O'},
+				{'O', 'X', 'O', 'O', 'X', 'O'},
+				{'O', 'X', 'O', 'X', 'O', 'O'},
+				{'O', 'X', 'O', 'O', 'O', 'O'},
+			},
+			want: [][]byte{
+				{'O', 'O', 'O', 'O', 'X', 'X'},
+				{'O', 'O', 'O', 'O', 'O', 'O'},
+				{'O', 'X', 'O', 'X', 'O', 'O'},
+				{'O', 'X', 'O', 'O', 'X', 'O'},
+				{'O', 'X', 'O', 'X', 'O', 'O'},
+				{'O', 'X', 'O', 'O', 'O', 'O'},
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			// 创建输入副本避免测试间相互影响
+			inputCopy := make([][]byte, len(tt.input))
+			for i := range tt.input {
+				inputCopy[i] = make([]byte, len(tt.input[i]))
+				copy(inputCopy[i], tt.input[i])
+			}
+
+			solve(inputCopy)
+
+			// 验证结果是否与预期一致
+			if len(inputCopy) != len(tt.want) {
+				t.Errorf("结果行数不符: 实际 %d, 预期 %d", len(inputCopy), len(tt.want))
+				return
+			}
+
+			for i := range inputCopy {
+				if len(inputCopy[i]) != len(tt.want[i]) {
+					t.Errorf("第 %d 行列数不符: 实际 %d, 预期 %d", i, len(inputCopy[i]), len(tt.want[i]))
+					return
+				}
+
+				for j := range inputCopy[i] {
+					if inputCopy[i][j] != tt.want[i][j] {
+						t.Errorf("位置 (%d,%d) 不符: 实际 %c, 预期 %c", i, j, inputCopy[i][j], tt.want[i][j])
+						return
+					}
+				}
+			}
+		})
+	}
+}

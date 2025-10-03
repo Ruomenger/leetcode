@@ -323,3 +323,44 @@ func closedIsland(grid [][]int) int {
 
 	return ans
 }
+
+func solve(board [][]byte) {
+	n, m := len(board), len(board[0])
+	visited := make([][]bool, n)
+	for i := range n {
+		visited[i] = make([]bool, m)
+	}
+	var isSurrounded func(x, y int) bool
+	isSurrounded = func(x, y int) bool {
+		if x < 0 || x >= n || y < 0 || y >= m {
+			return false
+		}
+		if visited[x][y] || board[x][y] == 'X' {
+			return true
+		}
+		visited[x][y] = true
+		b1 := isSurrounded(x-1, y)
+		b2 := isSurrounded(x+1, y)
+		b3 := isSurrounded(x, y-1)
+		b4 := isSurrounded(x, y+1)
+		return b1 && b2 && b3 && b4
+	}
+	var change func(x, y int)
+	change = func(x, y int) {
+		if x < 0 || x >= n || y < 0 || y >= m || board[x][y] == 'X' {
+			return
+		}
+		board[x][y] = 'X'
+		change(x-1, y)
+		change(x+1, y)
+		change(x, y-1)
+		change(x, y+1)
+	}
+	for x := range n {
+		for y := range m {
+			if board[x][y] == 'O' && !visited[x][y] && isSurrounded(x, y) {
+				change(x, y)
+			}
+		}
+	}
+}
