@@ -868,3 +868,48 @@ func TestContainsCycle(t *testing.T) {
 		})
 	}
 }
+
+func TestLargestIsland(t *testing.T) {
+	tests := []struct {
+		name string
+		grid [][]int
+		want int
+	}{
+		{
+			name: "示例0",
+			grid: [][]int{
+				{0, 0, 0, 0, 0, 0, 0},
+				{0, 1, 1, 1, 1, 0, 0},
+				{0, 1, 0, 0, 1, 0, 0},
+				{1, 0, 1, 0, 1, 0, 0},
+				{0, 1, 0, 0, 1, 0, 0},
+				{0, 1, 0, 0, 1, 0, 0},
+				{0, 1, 1, 1, 1, 0, 0},
+			},
+			want: 18,
+		},
+		{
+			name: "示例1",
+			grid: [][]int{{1, 0}, {0, 1}},
+			want: 3,
+		},
+		{
+			name: "示例2",
+			grid: [][]int{{1, 1}, {1, 0}},
+			want: 4,
+		},
+		{
+			name: "示例3",
+			grid: [][]int{{1, 1}, {1, 1}},
+			want: 4,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := largestIsland(tt.grid); got != tt.want {
+				t.Errorf("largestIsland() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

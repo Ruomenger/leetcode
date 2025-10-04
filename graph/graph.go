@@ -624,3 +624,90 @@ func containsCycle(grid [][]byte) bool {
 
 	return false
 }
+
+func largestIsland(grid [][]int) int {
+	n := len(grid)
+	if n == 0 {
+		return 0
+	}
+
+	islandArea := make(map[int]int)
+	islandID := 2 // 从2开始标记岛屿，避免与0、1冲突
+	maxArea := 0  // 初始化为原最大岛屿面积
+
+	// 方向数组
+	dirs := [][]int{{-1, 0}, {1, 0}, {0, -1}, {0, 1}}
+
+	// DFS标记岛屿并计算面积
+	var dfs func(x, y, id int) int
+	dfs = func(x, y, id int) int {
+		// 越界或非未访问的陆地，返回0
+		if x < 0 || x >= n || y < 0 || y >= n || grid[x][y] != 1 {
+			return 0
+		}
+		// 标记为当前岛屿ID
+		grid[x][y] = id
+		// 递归计算面积
+		return 1 + dfs(x-1, y, id) + dfs(x+1, y, id) + dfs(x, y-1, id) + dfs(x, y+1, id)
+	}
+
+	// 遍历网格，标记所有岛屿并记录面积
+	for x := 0; x < n; x++ {
+		for y := 0; y < n; y++ {
+			if grid[x][y] == 1 {
+				area := dfs(x, y, islandID)
+				islandArea[islandID] = area
+				if area > maxArea {
+					maxArea = area
+				}
+				islandID++
+			}
+		}
+	}
+
+	// 处理全是海洋的情况
+	if len(islandArea) == 0 {
+		return 1
+	}
+
+	// 检查每个0格子，计算转换后可能的最大面积
+	for x := 0; x < n; x++ {
+		for y := 0; y < n; y++ {
+			if grid[x][y] != 0 {
+				continue
+			}
+
+			// 收集相邻岛屿ID（去重）
+			adjacentIslands := make([]int, 0, 4)
+			for _, dir := range dirs {
+				nx, ny := x+dir[0], y+dir[1]
+				if nx >= 0 && nx < n && ny >= 0 && ny < n && grid[nx][ny] >= 2 {
+					// 检查是否已存在，避免重复添加
+					exists := false
+					for _, id := range adjacentIslands {
+						if id == grid[nx][ny] {
+							exists = true
+							break
+						}
+					}
+					if !exists {
+						adjacentIslands = append(adjacentIslands, grid[nx][ny])
+					}
+				}
+			}
+
+			// 计算合并后的面积
+			currentArea := 1 // 当前0转换为1的面积
+			for _, id := range adjacentIslands {
+				currentArea += islandArea[id]
+			}
+
+			// 更新最大面积
+			if currentArea > maxArea {
+				maxArea = currentArea
+			}
+		}
+	}
+
+	return maxArea
+}
