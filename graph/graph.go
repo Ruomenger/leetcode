@@ -558,3 +558,69 @@ func updateBoard(board [][]byte, click []int) [][]byte {
 	dfs(click[0], click[1])
 	return board
 }
+
+func containsCycle(grid [][]byte) bool {
+	if len(grid) == 0 || len(grid[0]) == 0 {
+		return false
+	}
+
+	rows, cols := len(grid), len(grid[0])
+	visited := make([][]bool, rows)
+	for i := range visited {
+		visited[i] = make([]bool, cols)
+	}
+
+	// 四个方向：上、右、下、左
+	dirs := [][]int{{-1, 0}, {0, 1}, {1, 0}, {0, -1}}
+
+	var dfs func(i, j, parentI, parentJ int) bool
+	dfs = func(i, j, parentI, parentJ int) bool {
+		// 标记当前单元格为已访问
+		visited[i][j] = true
+
+		// 探索四个方向的邻居
+		for _, dir := range dirs {
+			ni, nj := i+dir[0], j+dir[1]
+
+			// 检查是否在网格范围内
+			if ni < 0 || ni >= rows || nj < 0 || nj >= cols {
+				continue
+			}
+
+			// 检查值是否相同
+			if grid[ni][nj] != grid[i][j] {
+				continue
+			}
+
+			// 跳过父节点（避免直接返回上一步）
+			if ni == parentI && nj == parentJ {
+				continue
+			}
+
+			// 如果邻居已访问过，说明找到环（且长度≥4）
+			if visited[ni][nj] {
+				return true
+			}
+
+			// 递归探索，如果找到环则返回true
+			if dfs(ni, nj, i, j) {
+				return true
+			}
+		}
+
+		return false
+	}
+
+	// 遍历所有未访问的单元格，启动DFS
+	for i := 0; i < rows; i++ {
+		for j := 0; j < cols; j++ {
+			if !visited[i][j] {
+				if dfs(i, j, -1, -1) {
+					return true
+				}
+			}
+		}
+	}
+
+	return false
+}
